@@ -1,0 +1,165 @@
+<!--
+	Project:	Small bouncing ball demo
+	Date: 		July 27, 2013
+	Author:  	Ryan Jarvis
+-->
+
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+		<script type="text/javascript" src="../jquery.min.js"></script>
+		<!-- all the css styles -->
+		<style>
+			.main_container {
+				width: 520px; 
+				float: left;
+			}
+			#freq_input {
+				margin-left: 12px;
+				width: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='main_container'>
+			<!-- Everything will be done inside this canvas -->
+			<canvas id="rainCanvas" width="500" height="2000"></canvas>
+		</div>	
+		<div class='options_container' style="text-align: center">
+			Density (1-10)<input type="text" id="freq_input" value="5" maxlength="2"><br><br>
+			<a class="btn-invis" id="start_btn">Start</a><br><br>
+			<a class="btn-invis" id="stop_btn">Stop</a>
+		</div>
+		<img id="rainDrop" src="water_drop2.png" style="display: none; width: 25px; height: 25px;">
+		<img id="cloud" src="cloud.png" style="display: none; width: 25px; height: 25px;">
+
+		<!-- The main script -->
+		<script>
+			window.requestAnimFrame = (function(callback) {
+				return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+				function(callback) {
+					window.setTimeout(callback, 1000 / 60);
+				};
+			})();
+			
+			function rand(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+
+			function getMousePos(canvas, evt) {
+				var rect = canvas.getBoundingClientRect();
+				return {
+					x: evt.clientX - rect.left,
+					y: evt.clientY - rect.top
+				};
+			}
+
+			function refreshDrops() {
+				context.clearRect(0, 0, width, height);
+
+				createDrop();
+				drawDrops();
+				drawCloud();							
+			}
+
+			function checkMouse(evt) {
+				cursor = getMousePos(canvas, evt);
+				if (cursor.x > cloud.x && cursor.y > (cloud.y + 70) && cursor.x < (cloud.x + cloudSize) && cursor.y < (cloud.y + cloudSize - 30))
+					$('#rainCanvas').css( 'cursor', 'pointer' );
+				else
+					$('#rainCanvas').css( 'cursor', 'auto' );
+				if (cloudClicked) {
+					cloud.x += (cursor.x - (cloudClick.x + cloud.x));
+					cloud.y += (cursor.y - (cloudClick.y + cloud.y));	
+				}
+			}
+
+			function drawDrops() {
+				img=document.getElementById("rainDrop");
+				for (r in rainDrops) {
+					d = rainDrops[r]
+					d.y += d.force;
+					d.force *= 1.01
+					if (d.force > 6)
+						delete rainDrops[r]
+					context.drawImage(img,d.x,d.y, 2,15);
+				}
+			}
+
+			function drawCloud () {
+				img=document.getElementById("cloud");
+				context.drawImage(img,cloud.x,cloud.y, cloudSize,cloudSize);
+			}
+
+			function createDrop() {	
+				if (rand(1,freq) == 1) {
+					drop = {"x": rand(cloud.x+ 30,cloud.x + (cloudSize - 30)), "y": cloud.y + (cloudSize - 80), "force": rand(1.0,3.0)}
+					rainDrops.push(drop)
+				}
+			}
+
+			function rand_color() {
+				var letters = '0123456789ABCDEF'.split('');
+				var color = '#';
+				for (var i = 0; i < 6; i++ ) {
+				    color += letters[Math.round(Math.random() * 15)];
+				}
+				return color;
+			}
+
+			function mouseClick(evt) {
+				cursor = getMousePos(canvas, evt);
+				cloudClick.x = cursor.x - cloud.x;
+				cloudClick.y = cursor.y - cloud.y;
+				if (!cloudClicked)
+					cloudClicked = true;
+				else
+					cloudClicked = false;
+				console.log(cloudClicked)
+			}
+
+			function animate(canvas) {
+				refreshDrops();
+
+				requestAnimFrame(function() {
+					animate(canvas);
+				});
+			}
+
+
+			var width = 500;
+			var height = 800;
+			var force = 3;
+			var cloudSize = 250;
+			var cloudClick = {"x": 0, "y": 0};
+			var cloudClicked = false;
+			var freq = 5;
+
+			var rainDrops = []
+			
+			var canvas = document.getElementById('rainCanvas');
+			var context = canvas.getContext('2d');
+
+			var cloud = {"x": 50, "y": 50}
+
+
+			canvas.addEventListener('mousemove', function(evt) {
+				checkMouse(evt);
+			})
+
+			canvas.addEventListener('mousedown', function(evt) {
+				mouseClick(evt);
+			})
+
+			$('#start_btn').click(function () {
+				freq = 11 - $('#freq_input').val();
+			})
+
+			$('#stop_btn').click(function () {
+				freq = -1;
+			})
+
+			animate(canvas);
+		</script>
+	</body>
+</html>

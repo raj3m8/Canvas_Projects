@@ -71,3 +71,12 @@ a.btn-red:hover {
 a.btn-red:active {
 	background: #c52d2d;
 }
+
+a.btn-invis {
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 28px;
+}
+a.btn-invis:hover {
+	color: black;
+}
