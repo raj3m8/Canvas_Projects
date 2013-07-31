@@ -1,0 +1,122 @@
+<!--
+	Project:	Small bouncing ball demo
+	Date: 		July 27, 2013
+	Author:  	Ryan Jarvis
+-->
+
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+		<script type="text/javascript" src="../jquery.min.js"></script>
+		<!-- all the css styles -->
+		<style>
+			.main_container {
+				width: 520px; 
+				float: left;
+			}
+			#force_input {
+				margin-left: 12px;
+				width: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='main_container'>
+			<!-- Everything will be done inside this canvas -->
+			<canvas id="myCanvas" width="500" height="200"></canvas>
+		</div>	
+		<div class='options_container'>
+			Force (1-10)<input type="text" id="force_input" value="5" maxlength="2"><br><br>
+			<a class="btn btn-green" id="start_btn">Start</a><br><br>
+			<a class="btn btn-red" id="stop_btn">Stop</a>
+		</div>
+
+		<!-- The main script -->
+		<script>
+			window.requestAnimFrame = (function(callback) {
+				return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+				function(callback) {
+					window.setTimeout(callback, 1000 / 60);
+				};
+			})();
+			
+			function rand(x, y) {
+				return Math.floor((Math.random()*y)+x)
+			}
+
+			function drawBall() {
+				context.clearRect(0, 0, width, height);
+				ball.x += curentForce.x;
+				ball.y += curentForce.y;
+
+				checkWalls();
+
+				context.beginPath();
+				context.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI, false);
+				context.fillStyle = ball.color;
+				context.fill();
+				context.lineWidth = 2;
+				context.strokeStyle = 'black';
+				context.stroke();				
+			}
+
+			function checkWalls() {
+				//Check bottom barrier
+				if (ball.y + ball.radius >= height)
+					curentForce.y = curentForce.y * -1;
+
+				//Check top barrier
+				if (ball.y - ball.radius <= 0)
+					curentForce.y = curentForce.y * -1;
+
+				//Check right barrier
+				if (ball.x + ball.radius >= width)
+					curentForce.x = curentForce.x * -1;
+
+				//Check left barrier
+				if (ball.x - ball.radius <= 0)
+					curentForce.x = curentForce.x * -1;
+			}
+
+			function rand_color() {
+				var letters = '0123456789ABCDEF'.split('');
+				var color = '#';
+				for (var i = 0; i < 6; i++ ) {
+				    color += letters[Math.round(Math.random() * 15)];
+				}
+				return color;
+			}
+
+			function animate(canvas) {
+				drawBall();
+
+				requestAnimFrame(function() {
+					animate(canvas);
+				});
+			}
+			var width = 500;
+			var height = 200;
+			var force = 3;
+
+			var ball = {"x": 100, "y": 100, "color": rand_color(), "radius": rand(10,50)}
+			var curentForce = {"x": 0, "y": 0}
+			
+			var canvas = document.getElementById('myCanvas');
+			var context = canvas.getContext('2d');
+
+
+			$('#start_btn').click(function() {
+				force = $('#force_input').val()
+				curentForce.x = parseFloat(force) * 3.0;
+				curentForce.y = parseFloat(force);
+			})
+
+			$('#stop_btn').click(function() {
+				curentForce.x = 0;
+				curentForce.y = 0;
+			})
+
+			animate(canvas);
+		</script>
+	</body>
+</html>
