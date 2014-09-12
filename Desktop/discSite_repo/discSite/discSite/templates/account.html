@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - Account</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper" id="account_main">
+            {% include "common/navbar.html" %}	
+			<section class="sidebar-page">
+				<div class="container">
+					<div class="col-xs-12 col-sm-3 no-margin sidebar narrow">
+						<div class="widget">
+						    <div class="body bordered">
+						        <div class="le-links">
+						            <h2>Selling</h2>
+						            <hr>
+						            <ul>
+						                <li><a href="#" id="cur_listings">Current Listings</a></li>
+						                <li><a href="#" id="sold_listings">Sold Listings</a></li>
+						                <li><a href="#" id="unsold_listings">Expired Listings</a></li>
+						            </ul><br>
+						            <h2>Buying</h2>
+						            <hr>
+						            <ul>
+						                <li><a href="#" id="current_offers">Current Offers</a></li>
+						                <li><a href="#" id="items_won">Items Won</a></li>
+						                <li><a href="#" id="wishlist">Wish List</a></li>
+						            </ul>
+						        </div><!-- /.category-filter -->
+						    </div><!-- /.body -->
+						</div><!-- /.widget -->
+					</div>
+
+					<div class="col-sm-9">
+						<div id="account_right"></div>
+					</div>
+				</div>
+			</div>	
+
+
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+            	$('#account_right').load('{% url current_listings %}')
+
+            	$('#cur_listings').click(function() {
+            		$('#account_right').load('{% url current_listings %}')
+            	})
+
+            	$('#sold_listings').click(function() {
+            		$('#account_right').load('{% url sold_listings %}')
+            	})
+
+            	$('#unsold_listings').click(function() {
+            		$('#account_right').load('{% url expired_listings %}')
+            	})
+            })
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - User Profile</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper" id="user_profile_main">
+            {% include "common/navbar.html" %}	
+			<div id="single-product">
+			    <div class="container">
+					<div class="no-margin col-sm-12 col-sm-offset-2 body-holder">
+					    <div class="body">
+
+					        <div class="title"><a href="#">{{user_profile}}</a></div>
+					        <div class="brand"></div>
+
+					        {% if has_interacted %}
+
+						        Your Rating (Click star to rate)<br>
+	                            <div class="star-holder inline">
+	                                <div class="big star" data-score="{{current_rating}}"></div>
+	                            </div><br><br>
+
+	                            <b>Paypal Address</b><br>
+	                            <div id="user-paypal">raj3m8@gmail.com</div><br>
+
+	                            <b>Shipping Address</b><br>
+	                            <div id="user-name">Ryan Jarvis</div>
+	                            <div id="user-addrs">924 7th St Apt 9</div>
+	                            <span id="user-city">Santa Monica</span>, <span id="user-state">CA</span> <span id="user-zip">90403</span>
+
+
+	                            <div class="brand"></div>
+
+	                           {% endif %}
+
+                            <table id="review-table">
+                            	<h1>Ratings</h1>
+                            	<tr>
+	                            	<td><div class="star-holder inline"><div class="star" data-score="5"></div></div></td>
+	                            	<td><div class="progress-outer"><div class="progress-inner" data-tot="{{ratings.5}}"></div></div></td>
+	                            	<td><div class="review-total">{{ratings.5}}</div></td>
+								</tr>
+                            	<tr>
+	                            	<td><div class="star-holder inline"><div class="star" data-score="4"></div></div></td>
+	                            	<td><div class="progress-outer"><div class="progress-inner" data-tot="{{ratings.4}}"></div></div></td>
+	                            	<td><div class="review-total">{{ratings.4}}</div></td>
+								</tr>
+                            	<tr>
+	                            	<td><div class="star-holder inline"><div class="star" data-score="3"></div></div></td>
+	                            	<td><div class="progress-outer"><div class="progress-inner" data-tot="{{ratings.3}}"></div></div></td>
+	                            	<td><div class="review-total">{{ratings.3}}</div></td>
+								</tr>
+                            	<tr>
+	                            	<td><div class="star-holder inline"><div class="star" data-score="2"></div></div></td>
+	                            	<td><div class="progress-outer"><div class="progress-inner" data-tot="{{ratings.2}}"></div></div></td>
+	                            	<td><div class="review-total">{{ratings.2}}</div></td>
+								</tr>
+                            	<tr>
+	                            	<td><div class="star-holder inline"><div class="star" data-score="1"></div></div></td>
+	                            	<td><div class="progress-outer"><div class="progress-inner" data-tot="{{ratings.1}}"></div></div></td>
+	                            	<td><div class="review-total">{{ratings.1}}</div></td>
+								</tr>
+                            </table><br>
+					        
+				    	</div><!-- /.body -->
+					</div><!-- /.body-holder -->
+				</div>
+			</div>
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+            	var total_ratings = {{total_ratings}}
+
+      			$('.progress-inner').each(function() {
+      				var ratings = parseInt($(this).data('tot'))
+      				var percent = (ratings/total_ratings)*100;
+      				$(this).css('width', String(percent)+"%")
+      			})
+
+      			$('.star > img').live('click', function() {
+      				$.post('{% url rate_user %}', {'user': '{{user_profile}}', 'rating': $(this).attr('alt')})
+      			})
+
+      			/*  Star Rating  */
+	            $('.star').each(function(){
+                    var $star = $(this);
+                    
+                    if($star.hasClass('big')){
+                        $star.raty({
+                            starOff: '/media/assets/images/star-big-off.png',
+                            starOn: '/media/assets/images/star-big-on.png',
+                            space: false,
+                            score: function() {
+                                return $(this).attr('data-score');
+                            },
+                            onClick: function() {
+                                alert()
+                            }
+                        });
+                    }
+                    else {
+	                    $star.raty({
+	                        starOff: '/media/assets/images/star-off.png',
+	                        starOn: '/media/assets/images/star-on.png',
+	                        space: false,
+	                        score: function() {
+	                            return $(this).attr('data-score');
+	                        }
+	                    });
+                	}
+	            });
+            })
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - Home</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper">
+            {% include "common/navbar.html" %}
+            <header>
+                <div class="container no-padding">
+                    <div class="col-xs-12 col-sm-12 col-md-4 logo-holder">
+                        <div class="logo">
+                            <a href="{% url home %}">
+                                <img src="/media/assets/images/disc_logo.png">
+                            </a>
+                        </div>     
+                    </div><!-- /.logo-holder -->
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 top-search-holder no-margin">
+                        <div class="contact-row">
+                            <div class="contact inline">
+                                <i class="fa fa-envelope"></i> support@<span class="le-color">discmine.com</span>
+                            </div>
+                        </div><!-- /.contact-row -->
+                        <div class="search-area">
+                            
+                            <div class="control-group">
+                                <input class="search-field" placeholder="Search for item" />
+                                <a class="search-button" href="#"></a>    
+                            </div>
+                    
+                        </div><!-- /.search-area -->     
+                    </div><!-- /.top-search-holder -->
+
+                    <div class="col-xs-12 col-sm-12 col-md-3 top-cart-row no-margin">
+                        <div class="top-cart-row-container">
+
+                        </div><!-- /.top-cart-row-container -->
+                    </div><!-- /.top-cart-row -->
+                </div><!-- /.container -->
+            </header>
+
+            <div id="main-table">
+                <table class="dataTable">
+                    <thead>
+                        <tr>
+                            <th><center>Image</center></th>
+                            <th>Title</th>
+                            <th><center>Seller</center></th>
+                            <th><center>Best Offer</center></th>
+                            <th><center>Buy It Now</center></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in items %}
+                            <tr>
+                                <td><center><img src="{{i.image.0}}"></center></td>
+                                <td><a href="{% url item %}{{i.id}}">{{i.title}}</a></td>
+                                <td><center><a href="{% url user_page %}{{i.seller}}">{{i.seller}}</a></center></td>
+                                <td><center>${{i.offer|floatformat:0}}</center></td>
+                                <td><center>${{i.price|floatformat:0}}</center></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+                $('.search-field').on('keyup', function(e){
+                    if(e.which === 13){
+                        run_search();
+                    }
+                })
+
+                function run_search() {
+                    var search_val = $('.search-field').val()
+                    window.location = "/home/"+search_val
+                }
+
+                $('.search-button').click(function() {
+                    run_search();
+                })
+
+                $('.dataTable').dataTable({
+                    "bJQueryUI": true,
+                    "iDisplayLength": 25,
+                    "aoColumnDefs": [
+                        { 'bSortable': false, 'aTargets': [ 0, 1 ] }
+                    ],
+                    "sPaginationType": "bs_full",
+                    "sDom": 'lfrtip',
+                    "bFilter" : false,          
+                    "bLengthChange": false
+                })
+
+                $('.pagination').click(function() {
+                    goToByScroll('main-table')
+                })
+
+                // This is a functions that scrolls to #{blah}link
+                function goToByScroll(id){
+                    $('html,body').animate({scrollTop: $("#"+id).offset().top-70},'fast');
+                }
+            })
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+

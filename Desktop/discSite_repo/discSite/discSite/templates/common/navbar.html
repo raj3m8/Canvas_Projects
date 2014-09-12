@@ -1,0 +1,24 @@
+<nav class="top-bar animate-dropdown navbar-fixed-top">
+    <div class="container">
+        <div class="col-xs-12 col-sm-6 no-margin">
+            <ul>
+                <li><a href="{% url home %}">Home</a></li>
+                <li><a href="{% url rules %}">Rules</a></li>
+                <li><a href="{% url create_listing %}">Create Listing</a></li>
+                <li><a href="{% url contact_us %}">Contact Us</a></li>
+            </ul>
+        </div><!-- /.col -->
+
+        <div class="col-xs-12 col-sm-6 no-margin">
+            <ul class="right">
+                {% if user != None %}
+                    <li><a href="{% url account %}">Account</a></li>
+                    <li><a href="{% url logout %}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{% url signup %}">Register</a></li>
+                    <li><a href="{% url login %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.col -->
+    </div><!-- /.container -->
+</nav><!-- /.top-bar -->
