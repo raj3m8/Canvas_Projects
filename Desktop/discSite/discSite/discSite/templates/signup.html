@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - Home</title>
+        {% include "common/includes.html" %}
+	</head>
+
+	<body>	
+        <div class="wrapper" id="register_cont">
+
+        	{% include "common/navbar.html" %}
+
+			<div class="col-md-6 col-md-offset-3 single_cont_main">
+				<section class="section register inner-left-xs">
+					<h2 class="bordered">Create New Account</h2>
+
+					{% include "signup_form.html" %}
+					
+					<h2 class="semi-bold">Sign up today and you'll be able to :</h2>
+
+					<ul class="list-unstyled list-benefits">
+						<li><i class="fa fa-check primary-color"></i> Post discs in the Disc Mine marketplace</li>
+						<li><i class="fa fa-check primary-color"></i> Make offers on discs</li>
+					</ul>
+				</section><!-- /.register -->
+			</div><!-- /.col -->
+		</div>
+
+		<div class="modal fade" id="signup_error_modal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="signup_error_modal_title"></h4>
+		      </div>
+		      <div class="modal-body" id="signup_error_modal_body">	
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		{% include "common/footer.html" %}
+
+		<script>
+			$(document).ready(function() {
+				$('#signup_btn').click(function() {
+					$.post(
+						'/signup_sub/', 
+						{
+							"email": $("#email_input").val(),
+							"user": $("#user_input").val(),
+							"password": $("#password_input").val(),
+							"password2": $("#password2_input").val()
+						}, 
+						function(data) {
+							$('#signup_error_modal').modal('show')
+							$('#signup_error_modal_body').html(data["text"])
+							$('#signup_error_modal_title').text(data["title"])
+							$('#signup_error_modal').modal('show')
+						}
+					)
+				})
+			})
+
+		</script>
+    </body>
+</html>
+
+
+
+

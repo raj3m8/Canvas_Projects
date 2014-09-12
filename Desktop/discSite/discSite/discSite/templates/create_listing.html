@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - How It Works</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper" id="create_list_main">
+            {% include "common/navbar.html" %}
+			<div class="col-md-6 col-md-offset-3 center">
+				<section class="section register inner-left-xs">
+					<h2 class="bordered">List New Item</h2>
+
+					<form role="form" class="register-form cf-style-1">
+						<div class="field-row">
+	                        <label>Title (Max 75 Characters)</label>
+	                        <input type="text" class="le-input" id="auction_title" maxlength="75">
+	                    </div><!-- /.field-row -->
+
+						<div class="field-row">
+	                        <label>Description (Max 500 Characters)</label>
+	                        <textarea class="le-input" id="auction_desc" rows="7" maxlength="500"></textarea>
+	                    </div><!-- /.field-row -->
+
+						<div class="field-row">
+	                        <label>Buy It Now Price </label>
+	                        $<input type="text" class="le-input" style="width: 100px" id="auction_price">
+	                    </div>
+
+						<div class="field-row">
+	                        <label>Images (Click to Upload)</label>
+	                        <img src="/media/images/cloud-upload.png" class="list_image" onclick="$('#list_file1').click()" id="list_image1"> 
+	                        <input type="file" id="list_file1" class="list_file" style="display: none" data-img="list_image1"></input>
+
+	                        <img src="/media/images/cloud-upload.png" class="list_image" onclick="$('#list_file2').click()" id="list_image2">
+	                        <input type="file" id="list_file2" class="list_file" style="display: none" data-img="list_image2"></input>      
+
+	                        <img src="/media/images/cloud-upload.png" class="list_image" onclick="$('#list_file3').click()" id="list_image3">
+	                        <input type="file" id="list_file3" class="list_file" style="display: none" data-img="list_image3"></input>        
+
+	                        <img src="/media/images/cloud-upload.png" class="list_image" onclick="$('#list_file4').click()" id="list_image4">
+	                        <input type="file" id="list_file4" class="list_file" style="display: none" data-img="list_image4"></input>        
+
+	                        <img src="/media/images/cloud-upload.png" class="list_image" onclick="$('#list_file5').click()" id="list_image5">
+	                        <input type="file" id="list_file5" class="list_file" style="display: none" data-img="list_image5"></input>                     
+	                    </div>
+
+	                    <div class="buttons-holder">
+	                        <a class="le-button huge" id="signup_btn">List Item</a>
+	                    </div><!-- /.buttons-holder -->
+					</form>
+
+				</section><!-- /.register -->
+			</div><!-- /.col -->
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+            	$('.list_file').change(function(e) {
+            		var parent = this
+            		var files = e.target.files; 
+            		var reader = new FileReader();
+
+					// Closure to capture the file information.
+					reader.onload = (function(theFile) {
+						return function(e) {
+							img_parent =$("#"+$(parent).data('img')) 
+							img_parent.attr('src',e.target.result)
+							img_parent.css('padding', '4px')
+						};
+					})(files[0]);
+
+					reader.readAsDataURL(files[0]);
+            	})
+            })
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

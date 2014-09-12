@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - Home</title>
+        {% include "common/includes.html" %}
+	</head>
+
+	<body>	
+        <div class="wrapper" id="signin_cont">
+
+        	{% include "common/navbar.html" %}
+
+			<div class="col-md-6 col-md-offset-3 single_cont_main">
+				<section class="section sign-in inner-right-xs">
+					<h2 class="bordered">Sign In</h2>
+
+					<form role="form" class="login-form cf-style-1">
+						<div class="field-row">
+                            <label>Username</label>
+                            <input type="text" class="le-input" id="user_input">
+                        </div><!-- /.field-row -->
+
+                        <div class="field-row">
+                            <label>Password</label>
+                            <input type="password" class="le-input" id="password_input">
+                        </div><!-- /.field-row -->
+
+                        <div class="field-row clearfix">
+                        	<!-- <span class="pull-left">
+                        		<label class="content-color"><input type="checkbox" class="le-checbox auto-width inline"> <span class="bold">Remember me</span></label>
+                        	</span> -->
+                        	<span class="pull-right">
+                        		<a href="#" class="content-color bold">Forgotten Password ?</a>
+                        	</span>
+                        </div>
+
+                        <div class="buttons-holder">
+                            <a class="le-button huge" id="signin_btn">Secure Sign In</a>
+                        </div><!-- /.buttons-holder -->
+					</form><!-- /.cf-style-1 -->
+
+				</section><!-- /.sign-in -->
+			</div><!-- /.col -->
+
+		</div>
+
+		{% include "common/footer.html" %}
+
+		<script>
+			$(document).ready(function() {
+				$('#signin_btn').click(function () {
+					$.post(
+						'{% url login_submit %}', 
+						{
+							"user": $("#user_input").val(),
+							"password": $("#password_input").val(),
+						}, 
+						function(data) {
+							if (data == "True")
+								window.location = "{% url home %}"
+						}
+					)
+				})
+			})
+		</script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

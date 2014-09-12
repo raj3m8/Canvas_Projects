@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - How It Works</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper" id="contact_cont">
+            {% include "common/navbar.html" %}
+			<div class="col-md-8 col-md-offset-2" style="text-align: center;">
+				<section class="section leave-a-message">
+					<h2 class="bordered">Leave a Message</h2>
+					<p>Maecenas dolor elit, semper a sem sed, pulvinar molestie lacus. Aliquam dignissim, elit non mattis ultrices, neque odio ultricies tellus, eu porttitor nisl ipsum eu massa.</p>
+					<form id="contact-form" class="contact-form cf-style-1 inner-top-xs" method="post" >
+                        <div class="row field-row">
+                            <div class="col-xs-12 col-sm-6">
+                                <label>Your Name*</label>
+                                <input class="le-input" >
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <label>Your Email*</label>
+                                <input class="le-input" >
+                            </div>
+                        </div><!-- /.field-row -->
+                        
+                        <div class="field-row">
+                            <label>Subject*</label>
+                            <input type="text" class="le-input">
+                        </div><!-- /.field-row -->
+
+                        <div class="field-row">
+                            <label>Your Message*</label>
+                            <textarea rows="8" class="le-input"></textarea>
+                        </div><!-- /.field-row -->
+
+                        <div class="buttons-holder">
+                            <button type="submit" class="le-button huge">Send Message</button>
+                        </div><!-- /.buttons-holder -->
+                    </form><!-- /.contact-form -->
+				</section><!-- /.leave-a-message -->
+			</div><!-- /.col -->
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+
+            })
+        </script>
+    </body>
+</html>

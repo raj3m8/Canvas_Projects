@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - How It Works</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper" id="item_main">
+            {% include "common/navbar.html" %}	
+			<div id="single-product">
+			    <div class="container">
+			         <div class="no-margin col-xs-12 col-sm-6 col-md-5 gallery-holder">
+			    		<div class="product-item-holder size-big single-product-gallery small-gallery">
+					        <div id="owl-single-product">
+					            <div class="single-product-gallery-item" id="slide1">
+					                <img class="img-responsive" id="main-image" src="{{main_image}}" />
+					            </div><!-- /.single-product-gallery-item -->
+			        		</div><!-- /.single-product-slider -->
+
+					        <div class="single-product-gallery-thumbs gallery-thumbs">
+					            <div id="owl-single-product-thumbnails">
+					            	{% for i in secondary_images %}
+						                <a class="horizontal-thumb" href="#">
+						                    <img class="thumb-img" width="67" src="{{i}}" />
+						                </a>
+					            	{% endfor %}
+					            </div><!-- /#owl-single-product-thumbnails -->
+			        		</div><!-- /.gallery-thumbs -->
+
+					    </div><!-- /.single-product-gallery -->
+					</div><!-- /.gallery-holder -->        
+			        <div class="no-margin col-xs-12 col-sm-7 body-holder">
+					    <div class="body">
+
+					        <div class="title"><a href="#">{{item.title}}</a></div>
+					        <div class="brand"></div>
+
+					        <div class="social-row">
+					            <span class="st_facebook_hcount"></span>
+					            <span class="st_twitter_hcount"></span>
+					            <span class="st_pinterest_hcount"></span>
+					        </div>
+
+					        <div class="buttons-holder">
+					            <a class="btn-add-to-wishlist" id='watch-btn' href="#">watch item</a>
+					        </div>
+
+					        <div class="excerpt">
+					            <p>{{item.description}}</p>
+					        </div>
+					        
+					        <div class="prices">
+					            <div class="price-current">$17.00</div>
+					            <a id="addto-cart" href="cart.html" class="le-button huge">buy it now</a>
+					        </div><br>
+
+					        <div class="prices">
+					        	<div class="price-current">$</div>
+					        	<input type="number" class="le-input" id="offer-input">
+					            <a id="addto-cart" href="cart.html" class="le-button huge">make offer</a>
+					        </div>
+				    	</div><!-- /.body -->
+					</div><!-- /.body-holder -->
+			    </div><!-- /.container -->
+			</div><!-- /.single-product -->
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+            	var cur_item_id = '{{item.id}}'
+
+            	$('.thumb-img').click(function() {
+            		$('#main-image').attr('src', $(this).attr('src'))
+            	})     
+
+
+        		$('#watch-btn').click(function() {
+        			$.post('{% url watch_item %}', {'item_id': cur_item_id}).done(function() {
+		                bootbox.dialog({
+		                  message: "You are not watching this item",
+		                  title: "Successful",
+		                });
+		            });
+        		})
+            })
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

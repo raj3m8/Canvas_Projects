@@ -1,0 +1,138 @@
+{% load d_filters %} 
+
+<style>
+    h1 #account_header {
+        color: #333;
+    }
+
+    #accept-offer-modal span {
+        font-weight: bold;
+    }
+</style>
+
+<h1><div id="account_header">Current Listings</div></h1><br>
+
+<div id="account-table">
+    <table class="dataTable">
+        <thead>
+            <tr>
+                <th><center>Image</center></th>
+                <th>Title</th>
+                <th><center>Best Offer</center></th>
+                <th><center>Accept Offer</center></th>
+                <th><center>Delete</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+                <tr>
+                    <td><center><img src="{{i.image.0}}"></center></td>
+                    <td><a href="{% url item %}{{i.id}}">{{i.title}}</a></td>
+                    <td><center>${{i.offer|floatformat:0}}</center></td>
+                    <td><center><a href="#" class="accept-btn" data-title="{{i.title}}" data-offer="${{i.offer|floatformat:0}}" data-id="{{i.id}}">Accept</a></center></td>
+                    <td><center><a href="#" class='delete-btn' data-id='{{i.id}}' data-title='{{i.title}}'>Delete</a></center></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var current_id = null;
+
+        $('.dataTable').dataTable({
+            "bJQueryUI": true,
+            "iDisplayLength": 10,
+            "aoColumnDefs": [
+                { 'bSortable': false, 'aTargets': [ 0, 3 , 4 ] }
+            ],
+            "sPaginationType": "bs_full",
+            "sDom": 'lfrtip',
+            "bFilter" : false,          
+            "bLengthChange": false
+        })
+
+
+        // ACceot offer modal and AJAX
+        $('.accept-btn').click(function() {
+            $('#accept-offer-modal').modal('show')
+            $('#accept-offer-price').html($(this).data('offer'))
+            $('#accept-offer-title').html($(this).data('title'))
+            current_id = $(this).data('id')
+        })
+
+        $('#accept-final-btn').click(function() {
+            $.post('{% url accept_offer %}', {'item_id': current_id}).done(function() {
+                $('#accept-offer-modal').modal('hide')
+                bootbox.dialog({
+                  message: "Yourself and the buyer will both receive emails with the details of the purchase.  Ship the item ASAP once you have received payment.",
+                  title: "Successful",
+                });
+            })
+        })
+
+
+        // Delete listing modal and AJAX
+        $(".delete-btn").click(function() {
+            current_id = $(this).data('id')
+            $('#delete-listing-modal').modal('show')
+            $('#delete-listing-title').html($(this).data('title'))
+        })
+
+        $('#delete-final-btn').click(function() {
+            $.post('{% url del_listing %}', {'item_id': current_id}).done(function() {
+                $('#delete-listing-modal').modal('hide')
+                bootbox.dialog({
+                  message: "Your listing has been removed.  You can go to the 'Expired Listings' tab to repost your item.",
+                  title: "Deleted",
+                });
+            })
+        })      
+    })
+</script>
+
+
+<!-- Accept Offer Modal -->
+<div class="modal fade" id="accept-offer-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Accept Offer</h4>
+      </div>
+      <div class="modal-body">
+        <center>
+        Are you sure you want to accept the offer of <span id="accept-offer-price"></span> for your item <span id="accept-offer-title"></span>?<br>
+        </center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="accept-final-btn">Accept</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<!-- Delete Listing Modal -->
+<div class="modal fade" id="delete-listing-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Delete Listing</h4>
+      </div>
+      <div class="modal-body">
+        <center>
+        Are you sure you want to delete your item <span id="delete-listing-title"></span>?<br>
+        </center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" id="delete-final-btn">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

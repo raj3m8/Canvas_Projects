@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>DiscMine - How It Works</title>
+        {% include "common/includes.html" %}
+	</head>
+
+    <body>	
+        <div class="wrapper">
+            {% include "common/navbar.html" %}
+
+			<main id="terms" class="inner-bottom-md">
+				<div class="container">
+					<section class="section section-page-title">
+						<div class="page-header">
+							<h2 class="page-title">Rules</h2>
+							<p class="page-subtitle">Basic rules for buying and selling on Disc Mine</p>
+						</div>
+					</section><!-- /.section-page-title -->
+					<section class="section intellectual-property inner-bottom-xs">
+						<h2>Buying</h2>
+						<ol>
+							<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis diam erat. Duis velit lectus, posuere a blandit sit amet, tempor at lorem. Donec ultricies, lorem sed ultrices interdum.</li>
+							<li>Leo metus luctus sem, vel vulputate diam ipsum sed lorem. Donec tempor arcu nisl, et molestie massa scelerisque ut. Nunc at rutrum leo. Mauris metus mauris, tristique quis sapien eu, rutrum vulputate enim. </li>
+							<li>Mauris tempus erat laoreet turpis lobortis, eu tincidunt erat fermentum. </li>
+							<li>Aliquam non tincidunt urna. Integer tincidunt nec nisl vitae ullamcorper. Proin sed ultrices erat. Praesent varius ultrices massa at faucibus. </li>
+							<li>Aenean dignissim, orci sed faucibus pharetra, dui mi dignissim tortor, sit amet condimentum mi ligula sit amet augue. </li>
+							<li>Pellentesque vitae eros eget enim mollis placerat.</li>
+						</ol>
+					</section>
+					<section class="section intellectual-property inner-bottom-xs">
+						<h2>Selling</h2>
+						<ol>
+							<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis diam erat. Duis velit lectus, posuere a blandit sit amet, tempor at lorem. Donec ultricies, lorem sed ultrices interdum.</li>
+							<li>Leo metus luctus sem, vel vulputate diam ipsum sed lorem. Donec tempor arcu nisl, et molestie massa scelerisque ut. Nunc at rutrum leo. Mauris metus mauris, tristique quis sapien eu, rutrum vulputate enim. </li>
+							<li>Mauris tempus erat laoreet turpis lobortis, eu tincidunt erat fermentum. </li>
+							<li>Aliquam non tincidunt urna. Integer tincidunt nec nisl vitae ullamcorper. Proin sed ultrices erat. Praesent varius ultrices massa at faucibus. </li>
+							<li>Aenean dignissim, orci sed faucibus pharetra, dui mi dignissim tortor, sit amet condimentum mi ligula sit amet augue. </li>
+							<li>Pellentesque vitae eros eget enim mollis placerat.</li>
+						</ol>
+					</section>
+					<section class="section intellectual-property inner-bottom-xs">
+						<h2>Sleepy Scale</h2>
+						<ol>
+						<b>10</b> - Never thrown, no ink, brand new condition<br>
+						<b>9</b> - Field tested or used for one or two rounds<br>
+						<b>8</b> - Lightly used with very minimal wear<br>
+						<b>7</b> - Used with some minor dings or scuffs but still in good shape<br>
+						<b>6</b> - Typical used disc with the usual dings, scratches but still worthy<br>
+						<b>5</b> - Kinda beat, significant wear, has lost a good bit of it's stability<br>
+						<b>4</b> - Beat up turnover disc with some evident war story wear<br>
+						<b>3</b> - Beat to Hades dog chew toy<br>
+					</ol>
+					</section>					
+
+					<section class="section intellectual-property">
+						<h2>Contact Us</h2>
+						<p>If you have any questions about this, please contact us by filling out this <a href="{% url contact_us %}">contact form</a></p>
+					</section>
+				</div>
+			</main><!-- /.inner-bottom-md -->
+        </div>
+
+        {% include "common/footer.html" %}
+
+        <script>
+            $(document).ready(function() {
+                $('.dataTable').dataTable({
+                    "bJQueryUI": true,
+                    "aoColumnDefs": [
+                        { 'bSortable': false, 'aTargets': [ 0, 1 ] }
+                    ],
+                    "sPaginationType": "bs_full",
+                    "sDom": 'lfrtip',
+                    "bFilter" : false,          
+                    "bLengthChange": false
+                })
+            })
+        </script>
+    </body>
+</html>

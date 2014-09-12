@@ -1,0 +1,46 @@
+<style>
+    h1 #account_header {
+        color: #333;
+    }
+</style>
+
+<h1><div id="account_header">Sold Listings</div></h1><br>
+
+<div id="account-table">
+    <table class="dataTable">
+        <thead>
+            <tr>
+                <th><center>Image</center></th>
+                <th>Title</th>
+                <th><center>Sell Price</center></th>
+                <th><center>Buyer</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+                <tr>
+                    <td><center><img src="{{i.image.0}}"></center></td>
+                    <td><a href="{% url item %}{{i.id}}">{{i.title}}</a></td>
+                    <td><center>${{i.sold_price|floatformat:0}}</center></td>
+                    <td><center><a target="_blank" href="{% url user_page %}{{i.seller}}">{{i.seller}}</a></center></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.dataTable').dataTable({
+            "bJQueryUI": true,
+            "iDisplayLength": 10,
+            "aoColumnDefs": [
+                { 'bSortable': false, 'aTargets': [ 0, 3 ] }
+            ],
+            "sPaginationType": "bs_full",
+            "sDom": 'lfrtip',
+            "bFilter" : false,          
+            "bLengthChange": false
+        })
+    })
+</script>

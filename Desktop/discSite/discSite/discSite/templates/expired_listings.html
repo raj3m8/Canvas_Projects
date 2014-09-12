@@ -1,0 +1,97 @@
+{% load d_filters %} 
+
+<style>
+    h1 #account_header {
+        color: #333;
+    }
+</style>
+
+<h1><div id="account_header">Expired Listings</div></h1><br>
+
+<div id="account-table">
+    <table class="dataTable">
+        <thead>
+            <tr>
+                <th><center>Image</center></th>
+                <th>Title</th>
+                <th><center>Repost</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+                <tr>
+                    <td><center><img src="{{i.image.0}}"></center></td>
+                    <td><a href="{% url item %}{{i.id}}">{{i.title}}</a></td>
+                    <td><center><a href="#" class="repost-btn" data-id="{{i.id}}" data-price="{{i.price|dollar_filter}}" data-row="{{forloop.counter0}}">Repost</a></center></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var cur_item_id = null;
+        var cut_item_row = null;
+
+        var exp_table = $('.dataTable').DataTable({
+            "bJQueryUI": true,
+            "iDisplayLength": 10,
+            "aoColumnDefs": [
+                { 'bSortable': false, 'aTargets': [ 0, 2 ] }
+            ],
+            "sPaginationType": "bs_full",
+            "sDom": 'lfrtip',
+            "bFilter" : false,          
+            "bLengthChange": false
+        })
+
+        $('.repost-btn').click(function() {
+            $('#repost-modal').modal('show')
+            $('#repost_price').val($(this).data('price'))
+
+            cur_item_id = $(this).data('id')
+            cut_item_row = $(this).data('row')
+        })
+
+        $('#relist-btn').click(function() {
+            $.post('{% url relist %}', {'item_id': cur_item_id, 'new_price': $('#repost_price').val()}).done(function() {
+                $('#repost-modal').modal('hide')
+
+                exp_table.row( cut_item_row ).remove().draw();
+
+                bootbox.dialog({
+                  message: "Your auction has been relisted",
+                  title: "Successful",
+                });
+            })
+        })
+    })
+</script>
+
+<div class="modal fade" id="repost-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Repost Listing</h4>
+      </div>
+      <div class="modal-body">
+        <center>
+        <p>Your listing will be reposted and the 7 day expiration period will restart</p><br>
+        <p>  
+            <div class="field-row">
+                <label>Buy It Now Price </label>
+                $<input type="text" class="le-input" style="width: 100px" id="repost_price">
+            </div>
+        </p>
+        </center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="relist-btn">Relist</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
